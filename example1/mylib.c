@@ -11,6 +11,7 @@
 
 #include "mylib.h"
 #include <math.h>
+#include <string.h>
 
 //---------------------------------------------------------------------
 //  This function reads the student ID numbers and the corresponding
@@ -27,8 +28,8 @@
 
 int read_grades
 
-	( char*         filename ,
-	  float*        grades   ,
+	( char*         Grades,
+	  float*        grades,
 	  int*          studID   )
 
 {
@@ -38,26 +39,27 @@ int read_grades
 
 	FILE *gradlist;     // input file
 
-	printf("df %s\n",filename);
+	printf("df %s\n",Grades);
+	
 
-	if (( gradlist=fopen( filename , "r" )) == NULL )
+	if (( gradlist=fopen( "Grades.dat" , "r" )) == NULL )
 	{
-		printf("Cannot open file %s\n",filename );
-		return 0;
+		printf("Cannot open file %s\n",Grades );
+		
 	}
 	
-	while( fscanf(gradlist,"%d %e",&sID,&grad) != EOF )
+	while( fscanf(gradlist,"%d %f",&sID,&grad) != EOF )
     {
 		if (sID < 1000000 )
 		{
 			printf("Not a valid Student ID number : %d\n",sID);
-			return 0;
+			
 		}
 
 		if ( !(grad > 0. && grad < 10.0 ) )
 		{
-			printf("Student number %d has an invalid score : %e\n",sID,grad);
-			return 0;
+			printf("Student number %d has an invalid score : %f\n",sID,grad);
+			
 		}
  
 		studID[count] = sID;
@@ -72,7 +74,7 @@ int read_grades
 			return count;
 		}
 	}
-
+	
 	return count;
 }
 
@@ -100,7 +102,7 @@ void print_grades
 		printf("%d : %3.1f\n",studID[i],grades[i]);
 	}
 
-	if ( count = 0 )
+	if ( count == 0 )
 	{
 		printf("The list is empty\n\n");
 	}
@@ -132,16 +134,17 @@ float calc_average
 	float  sum = 0.0; 
 	float  average;	
 	int    i;
-
+	
 	if ( count == 0 )
 	{
 		printf("Number of items equals zero\n");
-		return 0.;	
 	}
 
-	for ( i = 0 ; i < count ; i++ );
+	i=0;
+	while (i < count)
 	{
 		sum = sum + grades[i];
+		++i;
 	}
 
 	average = sum / count;
@@ -154,18 +157,35 @@ float calc_average
 //  To be completed by the student
 //---------------------------------------------------------------------
 
-
 float calc_std_deviation
 
 	( float*     grades ,
-      int        count  );
+      int        count, float average )
 
 {
-	// To be completed by the student
-
-	return 0.;
+	int i;
+	float sum=0.0;
+	float a;
+	float c;
+	float b;
+	float standard_deviation;
+	
+	i=0;
+	while (i < count)
+	{
+		sum = sum + (grades[i] - average)*(grades[i] - average);
+		++i;
+	}
+	printf("%f\n",sum);
+	c = count-1;
+	printf("%f\n",c);
+	a = (1/c);
+	printf("%f\n",a);
+	b = sum*a;
+	printf("%f\n",b);
+	standard_deviation = sqrt(b);
+	return standard_deviation;
 }
-
 
 //---------------------------------------------------------------------
 //  Clears the contents of the histogram hist
@@ -174,16 +194,16 @@ float calc_std_deviation
 
 void clear_histogram
 
-	( int*        hist )
+	( int* hist )
 
-{
-	int i;
+ {
+	 int i;
 
-	for ( i = 0 ; i < HIST_ITEMS ; i++ )
-	{
+	 for ( i = 0 ; i < HIST_ITEMS ; i++ )
+	 {
 		hist[i] = 0;
-	}
-
+	 }
+}
 
 
 //---------------------------------------------------------------------
@@ -198,16 +218,34 @@ void clear_histogram
 //---------------------------------------------------------------------
 
 
-int get_hist_item
+void get_hist_item
 
-	( float    x )
+	(float* grades,int count,int* hist)
 
-{
-	if ( x > 9.99 ) return 11;
+{	
+	
+	int d;
+	int i;
+	
+	for(i = 0 ; i < count ; i++)
+	{
+	if (grades[i]>=0 && grades[i]<0.5 )
 
-	return round(x);
+	{d = 0;
+	hist[d] = 1;}
+
+	else if (grades[i]>=0.5 && grades[i]<1 )
+
+	{d = 1;
+	hist[d] = 1;}
+
+	else //(grades[i]>=1 && grades[i]<1.5 )
+
+	{d = 2;
+	hist[d] = 1;}
+
+	}
 }
-
 
 //---------------------------------------------------------------------
 //  To be completed by the student
@@ -216,10 +254,14 @@ int get_hist_item
 
 void fill_histogram
 
-	( float*           grades ,
-	  int*             hist   )
+	( float* grades,int* hist)
 
-{
-	//To be completed by the student
-}
+	{ 
+	int loop;
+		
+
+    for(loop = 0; loop < HIST_ITEMS; loop++)
+    printf("hist %d is %d\n",loop, hist[loop]);
+       	
+	}
 

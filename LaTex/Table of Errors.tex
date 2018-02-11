@@ -1,0 +1,25 @@
+\documentclass{article}
+\usepackage{a4wide}
+\usepackage{fancyhdr}
+\usepackage{blindtext}
+\usepackage[explicit]{titlesec}
+\usepackage{ragged2e}
+\begin{document}
+\begin{center}
+\begin{table}[h!]
+\centering
+ \begin{tabular}{||c c c c||} 
+ \hline
+  & Line Number & Error & Compiler Message \\ [0.5ex] 
+ \hline\hline
+ 1 & 27 & 2048  & Undeclared identifier 'average'  \\ 
+ 2 & 29 & 2234  & Argument 2 to printf does not match the format string  \\
+ 3 & 104 & 2030 & '=' used in a conditional expression  \\
+ 4 & 105 & 2154 & unreachable code  \\
+ 5 & 205 & 2001 & Syntax error: expected ';' but found '{' \\ 
+ 6 & 206 & 2001 & Syntax error: expected ';' but found 'return' \\ [1ex] 
+ \hline
+ \end{tabular}
+\end{table}
+\end{center}
+	\end{document}

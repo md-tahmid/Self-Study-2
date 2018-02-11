@@ -17,24 +17,27 @@ int main( void )
 	int   studID[MAX_GRADES];
 	int   count;
 	int   hist[HIST_ITEMS];
+	double average;
 
 	float stdDev;
 
-	count = read_grades( "../grades/grades.dat" , grades , studID );
+	count = read_grades( "Grades.dat" , grades , studID );
+	
+	printf("%d\n",count);
 
 	print_grades( grades , studID , count );
 
 	average = calc_average( grades , count );
 
-	printf("The average grade is : %2.0f\n",average);
+	printf("The average grade is : %.4f\n",average);
 
-	stdDev   = calc_std_deviation( grades , count );
+	stdDev   = calc_std_deviation( grades , count, average );
 
-	// printf("The standard deviation is : \n");
+	printf("The standard deviation is : %.4f\n",stdDev);
+	
+	clear_histogram(hist);
 
-	clear_histogram( hist );
-
-	fill_histogram( grades , hist );
+	fill_histogram( grades,hist);
 
 	return 0;
 }
